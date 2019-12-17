@@ -1,0 +1,47 @@
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
+
+@Service
+public class BTMDevice {
+
+    Logger logger = LoggerFactory.getLogger(BTMDevice.class);
+
+    @Autowired
+    protected DeviceTM deviceTM;
+
+    public List<FSDevice> getDevicesByAccountID(Integer accountID) {
+
+        List<TDevice> tDevice = deviceTM.getDevicesByAccountID(accountID);
+        List<FSDevice> fsDevices = new ArrayList<>();
+        for (TDevice device : tDevice) {
+            fsDevices.add(FSDeviceAdapter.convertTDeviceToFSDevice(device));
+        }
+        return fsDevices;
+    }
+
+    public boolean updateDevice(FSDevice fsDevice, Integer accountID) {
+
+        TDevice tDevice = FSDeviceAdapter.convertFSDeviceToTDevice(fsDevice);
+        deviceTM.save(tDevice, accountID);
+
+        return true;
+    }
+
+    public Integer createDevice(FSDevice fsDevice, Integer accountID) {
+        TDevice tDevice = FSDeviceAdapter.convertFSDeviceToTDevice(fsDevice);
+        return deviceTM.save(tDevice, accountID);
+    }
+
+    public boolean deleteDevice(FSDevice fsDevice) {
+
+        TDevice tDevice = FSDeviceAdapter.convertFSDeviceToTDevice(fsDevice);
+
+        return deviceTM.deleteDevice(tDevice);
+    }
+
+}
