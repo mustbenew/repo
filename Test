@@ -1,0 +1,61 @@
+import java.io.Serializable;
+import java.util.Objects;
+
+
+public class FSDevice extends FSHttpEntity implements Serializable {
+    private static final long serialVersionUID = 1L;
+
+    private Integer id;
+    private String name;
+    private String deviceUID;
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getDeviceUID() {
+        return deviceUID;
+    }
+
+    public void setDeviceUID(String deviceUID) {
+        this.deviceUID = deviceUID;
+    }
+
+    @Override
+    public String toString() {
+        return "FSDevice{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", deviceUID='" + deviceUID + '\'' +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof FSDevice)) return false;
+        if (!super.equals(o)) return false;
+        FSDevice fsDevice = (FSDevice) o;
+        return Objects.equals(getId(), fsDevice.getId()) &&
+                Objects.equals(getName(), fsDevice.getName()) &&
+                Objects.equals(getDeviceUID(), fsDevice.getDeviceUID());
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(super.hashCode(), getId(), getName(), getDeviceUID());
+    }
+}
